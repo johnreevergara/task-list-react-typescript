@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useEffect, useState } from "react";
+import React, { SyntheticEvent, useState } from "react";
 import styles from "./App.module.scss";
 import ToDoList from "./Components/ToDoList";
 import { ITaskList } from "./types/tasklist";
@@ -27,9 +27,23 @@ function App() {
     ]);
   };
 
-  useEffect(() => {
-    console.log(taskList);
-  }, [taskList]);
+  const handleMarkAsDoneClick = (id: number) => {
+    const updatedTaskList = taskList.map((task) => {
+      if (task.taskId === id) {
+        task.done = true;
+      }
+      return task;
+    });
+
+    setTaskList(updatedTaskList);
+  };
+
+  const handleRemoveItem = (id: number) => {
+    const updatedTaskList = taskList.filter(
+      (task) => !(task.taskId === id && task.done !== true)
+    );
+    setTaskList(updatedTaskList);
+  };
 
   return (
     <div className={styles.app}>
@@ -60,7 +74,11 @@ function App() {
           />
         </form>
       </div>
-      <ToDoList />
+      <ToDoList
+        items={taskList}
+        onMarkAsDoneClick={handleMarkAsDoneClick}
+        onRemoveItem={handleRemoveItem}
+      />
     </div>
   );
 }

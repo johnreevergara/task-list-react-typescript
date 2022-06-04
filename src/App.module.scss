@@ -37,6 +37,17 @@
         &.__btn_submit {
           width: 10%;
           cursor: pointer;
+          border-radius: 5px;
+          background-color: var(--neutral);
+          color: var(--white);
+
+          &:hover {
+            background-color: var(--pressed);
+          }
+
+          &:active {
+            transform: scale(1.1);
+          }
         }
       }
     }

@@ -1,0 +1,21 @@
+div[data-accordion-component="AccordionItemButton"] {
+  width: 96% !important;
+}
+
+div[data-accordion-component="AccordionItemPanel"] {
+  background-color: #fff;
+  text-align: left;
+}
+
+.accordion_container {
+  max-height: 65vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-shadow: 1px 1px 30px #194787;
+  border-radius: 5px;
+
+  .completed {
+    color: #11a783;
+    float: right;
+  }
+}

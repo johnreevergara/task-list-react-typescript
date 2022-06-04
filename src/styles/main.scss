@@ -2,8 +2,24 @@
   --color-1: #2e384d;
   --color-2: #e9edf9;
   --color-3: #dbe9fd;
+  --color-4: #fce4e5;
+  --color-5: #0b6bf2;
+  --color-6: #0243eb;
+  --color-7: #e84a50;
+  --color-8: #dc262b;
+  --color-9: #f0ebf2;
+  --color-10: #e0d8e5;
+  --color-11: #ffffff;
 
-  --header-bg: var(--color-1);
   --default: var(--color-2);
   --info: var(--color-3);
+  --error: var(--color-4);
+  --header-bg: var(--color-1);
+  --neutral: var(--color-5);
+  --pressed: var(--color-6);
+  --inactive: var(--color-3);
+  --danger-neutral: var(--color-7);
+  --danger-pressed: var(--color-8);
+  --danger-inactive: var(--color-4);
+  --white: var(--color-11);
 }
