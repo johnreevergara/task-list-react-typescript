@@ -1,0 +1,92 @@
+.button {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  outline: none !important;
+  cursor: pointer;
+  color: #fff;
+  padding: 3px 8px;
+  transition: background-color 0.2s ease;
+  border-radius: 5px;
+  margin: 0 0.5em;
+
+  &.primary {
+    background-color: var(--neutral);
+
+    &:hover {
+      background-color: var(--pressed);
+    }
+
+    &.disabled,
+    &:disabled {
+      background-color: var(--inactive);
+      cursor: not-allowed;
+    }
+  }
+
+  &.danger {
+    background-color: var(--danger-neutral);
+
+    &:hover {
+      background-color: var(--danger-pressed);
+    }
+
+    &.disabled,
+    &:disabled,
+    &.loading {
+      background-color: var(--danger-inactive);
+      cursor: not-allowed;
+    }
+  }
+
+  &.position_end {
+    float: right;
+  }
+
+  &.large {
+    height: 50px;
+    font-size: 1.2em;
+    width: 180px;
+  }
+
+  &.small {
+    height: 25px;
+    width: 100px;
+  }
+
+  &.loading {
+    color: transparent;
+
+    .loading_icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1em;
+      height: 1em;
+      color: black;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+      svg {
+        animation: spin 1s linear infinite;
+        transform-origin: center;
+        height: 24px;
+        width: 25px;
+      }
+    }
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
