@@ -1,0 +1,44 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.app {
+  text-align: center;
+  background-color: var(--info);
+  height: 100vh;
+
+  .header {
+    height: 150px;
+    background-color: var(--default);
+    margin: 0;
+
+    form {
+      position: relative;
+      top: 50%;
+      -ms-transform: translateY(-50%);
+      transform: translateY(-50%);
+
+      input {
+        margin: 0 1rem;
+        height: 45px;
+        text-decoration: none;
+        padding: 0 0.5em;
+
+        &.__date_input {
+          width: 10%;
+          top: -1%;
+        }
+
+        &.__task_input {
+          width: 30%;
+        }
+
+        &.__btn_submit {
+          width: 10%;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
