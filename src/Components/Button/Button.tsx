@@ -1,5 +1,6 @@
 import { FC } from "react";
 import useClassNames from "../../hooks/useClassnames";
+import Spinner from "../Spinner";
 import styles from "./Button.module.scss";
 
 type ButtonSize = "large" | "small";
@@ -25,6 +26,7 @@ const colorClassNameMap: Record<ButtonColor, string> = {
 interface IButton {
   size: ButtonSize;
   disabled?: boolean;
+  loading?: boolean;
   onClick?: (id: number) => void;
   children?: React.ReactNode;
   type?: Types;
@@ -38,6 +40,7 @@ const Button: FC<IButton> = ({
   className,
   size,
   disabled,
+  loading,
   onClick,
   children,
   type,
@@ -61,10 +64,16 @@ const Button: FC<IButton> = ({
         positionClassNameMap[position ?? "default"],
         colorClassNameMap[color ?? "primary"],
         disabled && styles.disabled,
+        loading && styles.loading,
         className
       )}
       disabled={disabled}
     >
+      {loading && (
+        <div data-testid="loading-icon" className={styles.loading_icon}>
+          <Spinner />
+        </div>
+      )}
       {children}
     </button>
   );
