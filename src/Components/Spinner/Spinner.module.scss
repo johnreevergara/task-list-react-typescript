@@ -1,0 +1,41 @@
+.loading_small {
+  padding: 5rem 0;
+}
+
+.loading_large {
+  padding: 12rem 0;
+}
+
+.loading_medium {
+  padding: 8rem 0;
+}
+
+.loading_fullscreen {
+  position: fixed;
+  background-color: var(--color-9);
+  min-height: 100vh;
+  top: 0;
+  right: 0;
+}
+
+.loading_container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: wait;
+  pointer-events: none;
+}
+
+.loading_spinner {
+  width: 5em;
+  height: 5em;
+  fill: var(--color-10);
+  animation: spin 500ms linear infinite;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}

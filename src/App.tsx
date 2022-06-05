@@ -1,33 +1,77 @@
-import React, { SyntheticEvent, useState } from "react";
+import { ChangeEvent, FC, SyntheticEvent, useEffect, useState } from "react";
+import Button from "./Components/Button";
+
 import styles from "./App.module.scss";
 import ToDoList from "./Components/ToDoList";
 import { ITaskList } from "./types/tasklist";
+import useClassNames from "./hooks/useClassnames";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-function App() {
+const App: FC = () => {
+  const [taskInputVal, setTaskInputVal] = useState<string>("");
+  const [targetToAccomplish, setTargetToAccomplish] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [taskList, setTaskList] = useState<ITaskList[]>([]);
-  const [inputTaskVal, setInputTaskVal] = useState<string>("");
-  const [inputDateVal, setInputDateVal] = useState<string>("");
+  const [hasNoTaskInputted, setHasNoTaskInputted] = useState<boolean>();
+  const [hasNoDateInputted, setHasNoDateInputted] = useState<boolean>();
+  const [latestId, setLatestId] = useState<number>(1);
 
-  const handleFormSubmit = (e: SyntheticEvent) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    switch (event.target.name) {
+      case "date":
+        setTargetToAccomplish(event.target.value);
+        break;
+      default:
+        setTaskInputVal(event.target.value);
+        break;
+    }
+  };
+
+  useEffect(() => {
+    if (taskInputVal.length > 0) setHasNoTaskInputted(false);
+    if (targetToAccomplish.length > 0) setHasNoDateInputted(false);
+  }, [targetToAccomplish.length, taskInputVal.length]);
+
+  const onTaskSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    const target = e.target as typeof e.target & {
-      task: { value: string };
-      date: { value: string };
-    };
-    const task = target.task.value;
-    const date = target.date.value;
-    setTaskList([
-      ...taskList,
-      {
-        taskId: taskList.length + 1,
-        task: task,
-        targetToAccomplish: date,
-        done: false,
-      },
-    ]);
+    if (!taskInputVal.length) {
+      setHasNoTaskInputted(true);
+    }
+    if (!targetToAccomplish.length) {
+      setHasNoDateInputted(true);
+    }
+    if (taskInputVal.length > 0 && targetToAccomplish.length > 0) {
+      const toastId = toast.loading("Creating new task...");
+      setIsLoading(true);
+      setLatestId((prev) => prev + 1);
+      setTimeout(() => {
+        setTaskInputVal("");
+        setTargetToAccomplish("");
+        setTaskList([
+          ...taskList,
+          {
+            taskId: latestId,
+            task: taskInputVal,
+            targetToAccomplish,
+            done: false,
+          },
+        ]);
+
+        toast.update(toastId, {
+          render: "Task successfully added!",
+          type: "success",
+          isLoading: false,
+          hideProgressBar: false,
+          autoClose: 850,
+        });
+        setIsLoading(false);
+      }, 850);
+    }
   };
 
   const handleMarkAsDoneClick = (id: number) => {
+    const toastId = toast.loading("Removing task...");
     const updatedTaskList = taskList.map((task) => {
       if (task.taskId === id) {
         task.done = true;
@@ -35,52 +79,86 @@ function App() {
       return task;
     });
 
-    setTaskList(updatedTaskList);
+    setTimeout(() => {
+      setTaskList(updatedTaskList);
+      toast.update(toastId, {
+        render: "Task completed... Awesome!!! ",
+        type: "success",
+        isLoading: false,
+        hideProgressBar: false,
+        autoClose: 1000,
+      });
+    }, 100);
   };
 
   const handleRemoveItem = (id: number) => {
+    const toastId = toast.loading("Removing task...");
     const updatedTaskList = taskList.filter(
       (task) => !(task.taskId === id && task.done !== true)
     );
-    setTaskList(updatedTaskList);
+    setTimeout(() => {
+      setTaskList(updatedTaskList);
+      toast.update(toastId, {
+        render: "Task deleted!",
+        type: "error",
+        isLoading: false,
+        hideProgressBar: false,
+        autoClose: 1000,
+      });
+    }, 100);
   };
 
   return (
     <div className={styles.app}>
       <div className={styles.header}>
-        <form onSubmit={handleFormSubmit}>
+        <form onSubmit={onTaskSubmit}>
           <input
             autoComplete="off"
             type="text"
             name="task"
             placeholder="Type New Task Here..."
-            onChange={(e): void => setInputTaskVal(e.target.value)}
-            value={inputTaskVal}
-            className={styles.__task_input}
+            onChange={handleInputChange}
+            value={taskInputVal}
+            className={useClassNames(
+              styles.input,
+              hasNoTaskInputted && styles.error
+            )}
           />
 
           <input
             type="date"
             name="date"
-            onChange={(e): void => setInputDateVal(e.target.value)}
-            value={inputDateVal}
-            className={styles.__date_input}
+            onChange={handleInputChange}
+            value={targetToAccomplish}
+            className={useClassNames(
+              styles.date_input,
+              hasNoDateInputted && styles.error
+            )}
           />
 
-          <input
-            type="submit"
-            value="Add task"
-            className={styles.__btn_submit}
-          />
+          <Button
+            size="large"
+            loading={isLoading}
+            disabled={!!isLoading}
+            type={"submit"}
+          >
+            Add Task
+          </Button>
         </form>
       </div>
-      <ToDoList
-        items={taskList}
-        onMarkAsDoneClick={handleMarkAsDoneClick}
-        onRemoveItem={handleRemoveItem}
-      />
+      {taskList.length > 0 && (
+        <div className={styles.task_container}>
+          <ToDoList
+            items={taskList}
+            onMarkAsDoneClick={handleMarkAsDoneClick}
+            onRemoveItem={handleRemoveItem}
+          />
+        </div>
+      )}
+
+      <ToastContainer />
     </div>
   );
-}
+};
 
 export default App;

@@ -12,6 +12,10 @@
   border-radius: 5px;
   margin: 0 0.5em;
 
+  &:active {
+    transform: scale(1.1);
+  }
+
   &.primary {
     background-color: var(--neutral);
 
@@ -20,7 +24,8 @@
     }
 
     &.disabled,
-    &:disabled {
+    &:disabled,
+    &.loading {
       background-color: var(--inactive);
       cursor: not-allowed;
     }

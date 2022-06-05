@@ -18,38 +18,33 @@
       top: 50%;
       -ms-transform: translateY(-50%);
       transform: translateY(-50%);
+    }
 
-      input {
-        margin: 0 1rem;
-        height: 45px;
-        text-decoration: none;
-        padding: 0 0.5em;
+    input {
+      height: 45px;
+      text-decoration: none;
 
-        &.__date_input {
-          width: 10%;
-          top: -1%;
-        }
+      padding: 0 0.5em;
+      margin: 0 5px;
 
-        &.__task_input {
-          width: 30%;
-        }
-
-        &.__btn_submit {
-          width: 10%;
-          cursor: pointer;
-          border-radius: 5px;
-          background-color: var(--neutral);
-          color: var(--white);
-
-          &:hover {
-            background-color: var(--pressed);
-          }
-
-          &:active {
-            transform: scale(1.1);
-          }
-        }
+      &.error {
+        background-color: var(--error);
       }
     }
+
+    .date_input {
+      width: 10%;
+      top: -1%;
+    }
+
+    .input {
+      width: 30%;
+    }
+  }
+
+  .task_container {
+    margin: 0 auto;
+    padding: 20px 0;
+    max-width: 70%;
   }
 }
